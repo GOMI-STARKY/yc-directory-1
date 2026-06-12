@@ -17,9 +17,7 @@ export default async function Home({
 
   console.log(session?.id);
 
-  const posts = await client
-    .withConfig({ useCdn: false })
-    .fetch(STARTUPS_QUERY, params);
+  const posts = await client.fetch(STARTUPS_QUERY, params);
 
   return (
     <>
