@@ -7,8 +7,6 @@ import UserStartups from "@/components/UserStartups";
 import { Suspense } from "react";
 import { StartupCardSkeleton } from "@/components/StartupCard";
 
-export const experimental_ppr = true;
-
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const id = (await params).id;
   const session = await auth();
@@ -27,8 +25,8 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
           </div>
 
           <Image
-            src={user.image}
-            alt={user.name}
+            src={user.image || ""}
+            alt={user.name || ""}
             width={220}
             height={220}
             className="profile_image"
