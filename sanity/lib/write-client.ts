@@ -19,11 +19,20 @@ function getWriteClient() {
 
 let _writeClient: ReturnType<typeof createClient> | null = null;
 
+function getClient() {
+  if (!_writeClient) {
+    _writeClient = getWriteClient();
+  }
+  return _writeClient;
+}
+
 export const writeClient = new Proxy({} as ReturnType<typeof createClient>, {
   get(_, prop) {
-    if (!_writeClient) {
-      _writeClient = getWriteClient();
+    const client = getClient();
+    const value = client[prop as keyof ReturnType<typeof createClient>];
+    if (typeof value === "function") {
+      return value.bind(client);
     }
-    return _writeClient[prop as keyof ReturnType<typeof createClient>];
+    return value;
   },
 });
