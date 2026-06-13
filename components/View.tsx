@@ -5,17 +5,26 @@ import { writeClient } from "@/sanity/lib/write-client";
 import { unstable_after as after } from "next/server";
 
 const View = async ({ id }: { id: string }) => {
-  const { views: totalViews } = await client
-    .withConfig({ useCdn: false })
-    .fetch(STARTUP_VIEWS_QUERY, { id });
+  let totalViews = 0;
+  try {
+    const data = await client
+      .withConfig({ useCdn: false })
+      .fetch(STARTUP_VIEWS_QUERY, { id });
+    totalViews = data?.views ?? 0;
+  } catch (e) {
+    console.error("Failed to fetch views:", e);
+  }
 
-  after(
-    async () =>
+  after(async () => {
+    try {
       await writeClient
         .patch(id)
         .set({ views: totalViews + 1 })
-        .commit(),
-  );
+        .commit();
+    } catch (e) {
+      console.error("Failed to update views:", e);
+    }
+  });
 
   return (
     <div className="view-container">

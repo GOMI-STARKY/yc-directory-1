@@ -40,20 +40,30 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
           </Link>
         </div>
         <Link href={`/user/${author?._id}`}>
-          <Image
-            src={author?.image || ""}
-            alt={author?.name || ""}
-            width={48}
-            height={48}
-            className="rounded-full"
-          />
+          {author?.image ? (
+            <Image
+              src={author.image}
+              alt={author?.name || ""}
+              width={48}
+              height={48}
+              className="rounded-full"
+            />
+          ) : (
+            <div className="size-12 rounded-full bg-gray-200" />
+          )}
         </Link>
       </div>
 
       <Link href={`/startup/${_id}`}>
         <p className="startup-card_desc">{description}</p>
 
-        <img src={image} alt="placeholder" className="startup-card_img" />
+        {image ? (
+          <img src={image} alt="placeholder" className="startup-card_img" />
+        ) : (
+          <div className="startup-card_img bg-gray-100 flex items-center justify-center text-gray-400">
+            No image
+          </div>
+        )}
       </Link>
 
       <div className="flex-between gap-3 mt-5">
