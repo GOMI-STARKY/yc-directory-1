@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { client } from "@/sanity/lib/client";
+import { writeClient } from "@/sanity/lib/write-client";
 import {
   PLAYLIST_BY_SLUG_QUERY,
   STARTUP_BY_ID_QUERY,
@@ -20,8 +20,8 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const id = (await params).id;
 
   const [post, playlist] = await Promise.all([
-    client.fetch(STARTUP_BY_ID_QUERY, { id }),
-    client.fetch(PLAYLIST_BY_SLUG_QUERY, {
+    writeClient.fetch(STARTUP_BY_ID_QUERY, { id }),
+    writeClient.fetch(PLAYLIST_BY_SLUG_QUERY, {
       slug: "editor-picks-new",
     }),
   ]);

@@ -1,7 +1,7 @@
 import SearchForm from "@/components/SearchForm";
 import StartupCard, { StartupTypeCard } from "@/components/StartupCard";
 import { STARTUPS_QUERY } from "@/sanity/lib/queries";
-import { client } from "@/sanity/lib/client";
+import { writeClient } from "@/sanity/lib/write-client";
 import { SanityLive } from "@/sanity/lib/live";
 import { auth } from "@/auth";
 
@@ -17,7 +17,7 @@ export default async function Home({
 
   console.log(session?.id);
 
-  const posts = await client.fetch(STARTUPS_QUERY, params);
+  const posts = await writeClient.fetch(STARTUPS_QUERY, params);
 
   return (
     <>
